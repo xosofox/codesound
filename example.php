@@ -6,20 +6,23 @@
  * Time: 00:32
  */
 
-use Codesound\Note;
 use Codesound\Player;
 use Codesound\Sequence;
 use Codesound\SoundDumper;
 
 include __DIR__.'/vendor/autoload.php';
 
+// all notes of a major scale (Yes, the white keys of a piano when doing C Major)
 $range = [0, 2, 4, 5, 7, 9, 11, 12];
 
-$sequence = new Sequence();
+/*
+$sequence = Sequence();
 foreach ($range as $index) {
     $note = new Note($index);
     $sequence->add($note);
 }
+*/
+$sequence = Sequence::fromTuples($range);
 
 $player = new Player($sequence);
 $dumper = new SoundDumper();
