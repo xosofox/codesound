@@ -23,8 +23,6 @@ class  Mapper
 
         $this->harmonics = [0, 2, 4, 5, 7, 9, 11];
         $this->lengths = [1 / 8, 1 / 4, 1 / 2, 1];
-
-        $this->buildMap();
     }
 
     /**
@@ -54,6 +52,8 @@ class  Mapper
     public function map($tuples)
     {
         list($minIndex, $maxIndex, $minLength, $maxLength) = $this->findLimits($tuples);
+
+        $this->buildMap();
 
         return [
             0,
