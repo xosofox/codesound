@@ -18,6 +18,7 @@ class PlayerTest extends TestCase
         $sequence->add(new Note(0));
         $sequence->add(new Note(12));
         $sequence->add(new Note(3));
+        $sequence->add(new Note(null));
 
         $player = new Player($sequence);
         $player->setBaseFrequency(440);
@@ -27,5 +28,6 @@ class PlayerTest extends TestCase
         $this->assertEquals(440, $tones[0]->getFrequency(), "Note A=0 has Frequency of 440");
         $this->assertEquals(880, $tones[1]->getFrequency(), "Note A=12 has Frequency of 880");
         $this->assertEquals(523.25, round($tones[2]->getFrequency(), 2), "Note C=3 has Frequency of 261.63");
+        $this->assertEquals(0, $tones[3]->getFrequency(), "Note null/Pause has Frequency of 0");
     }
 }

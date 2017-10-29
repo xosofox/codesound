@@ -58,7 +58,12 @@ class Player
     public function getToneFromNote(Note $note)
     {
         $ms = $this->barLength * $note->getLength();
-        $hz = $this->base * pow($this->logstep, $note->getIndex());
+        $idx = $note->getIndex();
+        if ($idx !== null) {
+            $hz = $this->base * pow($this->logstep, $idx);
+        } else {
+            $hz = 0;
+        }
 
         return new Tone($hz, $ms);
     }

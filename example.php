@@ -15,7 +15,7 @@ include __DIR__.'/vendor/autoload.php';
 // all notes of a major scale (Yes, the white keys of a piano when doing C Major)
 $range = [0, 2, 4, 5, 7, 9, 11, 12];
 
-$alleMeineEntchen = [0, 2, 4, 5, [7, 1 / 2], [7, 1 / 2], 9, 9, 9, 9, [7, 1/2]];
+$alleMeineEntchen = [0, 2, 4, 5, [7, 1 / 2], [7, 1 / 2], 9, 9, 9, 9, [7, 1 / 2], [null, 1 / 2], 9, 9, 9, 9, [7, 1 /     2]];
 
 /*
 $sequence = Sequence();
