@@ -23,7 +23,7 @@ Play a simple A major scale
 ```
 <?php 
 
-$alleMeineEntchen = [0, 2, 4, 5, [7, 1 / 2], [7, 1 / 2], 9, 9, 9, 9, [7, 1/2]];
+$alleMeineEntchen = [0, 2, 4, 5, [7, 1 / 2], [7, 1 / 2], 9, 9, 9, 9, [7, 1 / 2], [null, 1 / 2], 9, 9, 9, 9, [7, 1 / 2]];
 $sequence = Sequence::fromTuples($alleMeineEntchen);
 $player = new Player($sequence);
 $dumper = new SoundDumper();
