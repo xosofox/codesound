@@ -10,39 +10,30 @@ namespace Codesound;
 
 class Note
 {
-    const BASE_FREQUENCY = 220;      # @TODO option to set Base
-    const BASE_BAR_DURATION = 4000;  # @TODO option to set "bpm"
-
-    private $hz;
-    private $ms;
+    /** @var  integer */
+    private $index;
+    /** @var float  */
+    private $length;
 
     public function __construct($index, $length = .25)
     {
         $this->index = $index;
         $this->length = $length;
-        $this->hz = $this->getFrequencyForIndex($index);
-        $this->ms = $this->getMSForLength($length);
     }
 
-    private function getFrequencyForIndex($index)
+    /**
+     * @return int
+     */
+    public function getIndex()
     {
-        $logstep = pow(2, 1 / 12);
-
-        return self::BASE_FREQUENCY * pow($logstep, $index);
+        return $this->index;
     }
 
-    public function getHz()
+    /**
+     * @return float
+     */
+    public function getLength()
     {
-        return $this->hz;
-    }
-
-    public function getMs()
-    {
-        return $this->ms;
-    }
-
-    private function getMSForLength($length)
-    {
-        return self::BASE_BAR_DURATION * $length;
+        return $this->length;
     }
 }

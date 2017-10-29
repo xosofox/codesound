@@ -8,7 +8,6 @@
 
 namespace Codesound;
 
-
 /**
  * Class Sequence
  *
@@ -24,6 +23,9 @@ class Sequence
         $this->notes[] = $note;
     }
 
+    /**
+     * @return Note[]
+     */
     public function getNotes()
     {
         return $this->notes;

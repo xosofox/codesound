@@ -24,17 +24,15 @@ class SoxRaw
     }
 
     /**
-     * Add Note (frequency) to raw file
+     * Add Tone to raw file
      *
-     * @param Note $note
+     * @param Tone $tone
      *
      */
-    public function addNote(Note $note)
+    public function addTone(Tone $tone)
     {
-        $freq = $note->getHz();
-        $ms = $note->getMs();
         $this->cmd->execute(
-            '-e mu-law -r '.$this->rate.' -n -t raw - synth '.($ms / 1000).' sine '.$freq.' gain -3 >> '.$this->filepath
+            '-e mu-law -r '.$this->rate.' -n -t raw - synth '.$tone->getSeconds().' sine '.$tone->getFrequency().' gain -3 >> '.$this->filepath
         );
 
     }

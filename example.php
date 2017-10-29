@@ -7,6 +7,7 @@
  */
 
 use Codesound\Note;
+use Codesound\Player;
 use Codesound\Sequence;
 use Codesound\SoundDumper;
 
@@ -20,5 +21,6 @@ foreach ($range as $index) {
     $sequence->add($note);
 }
 
+$player = new Player($sequence);
 $dumper = new SoundDumper();
-$dumper->dump($sequence, __DIR__.'/bla.ul', __DIR__.'/bla.wav');
+$dumper->dump($player, __DIR__.'/lala.ul', __DIR__.'/lala.wav');

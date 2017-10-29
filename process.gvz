@@ -1,0 +1,11 @@
+digraph Process {
+    MappingOptions -> Converter;
+    "Numbers(Filehash, length, ...)" -> Converter;
+    Converter -> Note [label="Numbers to pitch/length"];
+    Note -> Sequence [label="add"];
+    Sequence -> Player;
+    BPM -> Player;
+    BaseFrequency -> Player;
+    Player -> Dumper [label="Notes to Tones"]
+    Dumper -> "lala.wav";
+}
