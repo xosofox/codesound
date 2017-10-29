@@ -71,6 +71,51 @@ class MapperTest extends TestCase
 
         $indexes = $mapper->getIndexes();
         $this->assertEquals($expect, $indexes, "Build Map of Harmonics of one Octave");
+    }
 
+    public function testMap()
+    {
+
+        $tuples = [4, 8, 16];
+
+        $mapper = new Mapper();
+
+        $mapped = $mapper->map($tuples);
+
+        $expected = [
+            [0, 0.25],
+            [3, 0.25],
+            [8, 0.25],
+        ];
+
+        $this->assertEquals($expected, $mapped, "Mapping maps to harmonics");
+    }
+
+    public function testMap2()
+    {
+
+        $tuples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+        $mapper = new Mapper();
+
+        $mapped = $mapper->map($tuples);
+
+        $expected = [
+            [0, 0.25],
+            [1, 0.25],
+            [1, 0.25],
+            [2, 0.25],
+            [3, 0.25],
+            [3, 0.25],
+            [4, 0.25],
+            [5, 0.25],
+            [5, 0.25],
+            [6, 0.25],
+            [7, 0.25],
+            [7, 0.25],
+            [8, 0.25],
+        ];
+
+        $this->assertEquals($expected, $mapped, "Mapping chromatics to harmonics");
     }
 }

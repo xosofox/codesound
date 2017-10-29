@@ -58,13 +58,29 @@ class  Mapper
 
         $this->buildMap();
 
-        return [
-            0,
-            1,
-            [2, 1 / 8],
-            3,
-            4,
-        ];
+        $indexDiff = $maxIndex - $minIndex;
+        $indexStep = $indexDiff / count($this->indexes);
+
+        $mapped = [];
+        foreach ($tuples as $tuple) {
+            list ($index, $length) = $this->normalize($tuple);
+
+            $idx = round(($index - $minIndex) / $indexStep);
+            $length = .25;
+
+            $mapped[] = [$idx, $length];
+        }
+
+        return $mapped;
+    }
+
+    public function normalize($tuple)
+    {
+        if (is_numeric($tuple)) {
+            return [$tuple, 0];
+        }
+
+        return $tuple;
     }
 
     public function findLimits($tuples)
@@ -74,13 +90,7 @@ class  Mapper
         $minLength = 9e99;
         $maxLength = 0;
         foreach ($tuples as $tuple) {
-            if (is_numeric($tuple)) {
-                $index = $tuple;
-                $length = 0;
-            } else {
-                $index = $tuple[0];
-                $length = $tuple[1];
-            }
+            list ($index, $length) = $this->normalize($tuple);
 
             if ($minIndex > $index) {
                 $minIndex = $index;
