@@ -57,7 +57,7 @@ class MapperTest extends TestCase
         $mapper->buildMap();
 
         $indexes = $mapper->getIndexes();
-        $this->assertEquals([0, 2, 4, 5, 7, 9, 11], $indexes, "Build Map of Harmonics of one Octave");
+        $this->assertEquals([0, 2, 4, 5, 7, 9, 11, 12], $indexes, "Build Map of Harmonics of one Octave");
 
     }
 
@@ -67,7 +67,7 @@ class MapperTest extends TestCase
         $mapper->setOctaves(3);
         $mapper->buildMap();
 
-        $expect = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31, 33, 35];
+        $expect = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36];
 
         $indexes = $mapper->getIndexes();
         $this->assertEquals($expect, $indexes, "Build Map of Harmonics of one Octave");

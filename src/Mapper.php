@@ -42,6 +42,9 @@ class  Mapper
 
             $this->indexes = array_merge($this->indexes, $indexes);
         }
+
+        //put next octaves 0 at the end
+        $this->indexes[] = 12 * $this->octaves;
     }
 
     public function getIndexes()
