@@ -33,6 +33,17 @@ class Player
         $this->logstep = pow(2, 1 / 12);
     }
 
+    /**
+     * @param int $base
+     */
+    public function setBaseFrequency($base)
+    {
+        $this->base = $base;
+    }
+
+    /**
+     * @return Tone[]
+     */
     public function getTones()
     {
         $tones = [];
@@ -40,7 +51,6 @@ class Player
         foreach ($notes as $note) {
             $tones[] = $this->getToneFromNote($note);
         }
-        var_dump($tones);
 
         return $tones;
     }
