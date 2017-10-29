@@ -50,4 +50,27 @@ class MapperTest extends TestCase
         $this->assertEquals(3, $minLength);
         $this->assertEquals(67, $maxLength);
     }
+
+    public function testBuildHarmonicMapOneOctave()
+    {
+        $mapper = new Mapper();
+        $mapper->buildMap();
+
+        $indexes = $mapper->getIndexes();
+        $this->assertEquals([0, 2, 4, 5, 7, 9, 11], $indexes, "Build Map of Harmonics of one Octave");
+
+    }
+
+    public function testBuildHarmonicMapThreeOctaves()
+    {
+        $mapper = new Mapper();
+        $mapper->setOctaves(3);
+        $mapper->buildMap();
+
+        $expect = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31, 33, 35];
+
+        $indexes = $mapper->getIndexes();
+        $this->assertEquals($expect, $indexes, "Build Map of Harmonics of one Octave");
+
+    }
 }

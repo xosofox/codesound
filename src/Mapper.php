@@ -10,14 +10,45 @@ namespace Codesound;
 
 class  Mapper
 {
-    const SCALE = "scale";
     const HARMONIC = "harmonic";
     const CHROMATIC = "chromatic";
+    private $indexes;
+    private $octaves;
 
     public function __construct()
     {
-        $this->scale = self::SCALE;
         $this->mapping = self::HARMONIC;
+        $this->octaves = 1;
+
+
+        $this->harmonics = [0, 2, 4, 5, 7, 9, 11];
+        $this->lengths = [1 / 8, 1 / 4, 1 / 2, 1];
+
+        $this->buildMap();
+    }
+
+    /**
+     * Build the maps of available indexes and available lengths, considering limits and octaves
+     */
+    public function buildMap()
+    {
+        //consider octaves
+        $this->indexes = [];
+        for ($i = 0; $i < $this->octaves; $i++) {
+            $indexes = array_map(
+                function ($idx) use ($i) {
+                    return $idx + (12 * $i);
+                },
+                $this->harmonics
+            );
+
+            $this->indexes = array_merge($this->indexes, $indexes);
+        }
+    }
+
+    public function getIndexes()
+    {
+        return $this->indexes;
     }
 
     public function map($tuples)
@@ -66,6 +97,11 @@ class  Mapper
         }
 
         return [$minIndex, $maxIndex, $minLength, $maxLength];
+    }
+
+    public function setOctaves($int)
+    {
+        $this->octaves = $int;
     }
 
 
