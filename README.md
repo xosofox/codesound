@@ -23,17 +23,11 @@ Play a simple A major scale
 ```
 <?php 
 
-$range = [0, 2, 4, 5, 7, 9, 11, 12];
-
-$sequence = new Sequence();
-foreach ($range as $index) {
-    $note = new Note($index);
-    $sequence->add($note);
-}
-
-$player = new Player();
+$alleMeineEntchen = [0, 2, 4, 5, [7, 1 / 2], [7, 1 / 2], 9, 9, 9, 9, [7, 1/2]];
+$sequence = Sequence::fromTuples($alleMeineEntchen);
+$player = new Player($sequence);
 $dumper = new SoundDumper();
-$dumper->dump($player, __DIR__.'/bla.ul', __DIR__.'/bla.wav');
+$dumper->dump($player, __DIR__.'/lala.ul', __DIR__.'/lala.wav');
 
 ```
 
