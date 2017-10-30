@@ -1,4 +1,5 @@
 {
+    "name": "xosofox/codesound",
     "require-dev": {
         "phpunit/phpunit": "^6.4"
     },
