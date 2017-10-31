@@ -7,7 +7,7 @@ Add `Note` Objects to a `Sequence` which can be dumped into a wave file.
 
    REQUIRES "sox" http://sox.sourceforge.net/
    
-   `sudo apt-get install sox`
+   `sudo apt-get install sox` or `brew install sox`
 
 
 The notes are indexed like this:
