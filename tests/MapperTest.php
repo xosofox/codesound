@@ -14,79 +14,52 @@ class MapperTest extends TestCase
 {
     public function testFindLimits()
     {
-
-        $tuples = [
+        $values = [
             5,
             7,
-            [4, 6],
-            [12, 67],
+            4,
+            12,
             8,
-            [3, 3],
+            3,
         ];
 
         $mapper = new Mapper();
-        list($minIndex, $maxIndex, $minLength, $maxLength) = $mapper->findLimits($tuples);
+        list($min, $max) = $mapper->findLimits($values);
 
-        $this->assertEquals(3, $minIndex);
-        $this->assertEquals(12, $maxIndex);
-        $this->assertEquals(0, $minLength);
-        $this->assertEquals(67, $maxLength);
+        $this->assertEquals(3, $min);
+        $this->assertEquals(12, $max);
     }
 
-    public function testFindLimitsOfTuples()
+    public function testEmptyIndexes()
     {
+        $this->expectException(\Exception::class);
 
-        $tuples = [
-            [4, 6],
-            [12, 67],
-            [3, 3],
-        ];
-
-        $mapper = new Mapper();
-        list($minIndex, $maxIndex, $minLength, $maxLength) = $mapper->findLimits($tuples);
-
-        $this->assertEquals(3, $minIndex);
-        $this->assertEquals(12, $maxIndex);
-        $this->assertEquals(3, $minLength);
-        $this->assertEquals(67, $maxLength);
+        $indexes = [];
+        $converter = new Mapper($indexes);
+        $mapped = $converter->map([1, 2, 3]);
     }
 
-    public function testBuildHarmonicMapOneOctave()
+    public function testSingleIndex()
     {
-        $mapper = new Mapper();
-        $mapper->buildMap();
+        $indexes = [42];
+        $values = [3, 4, 5, 6, 7];
+        $converter = new Mapper($indexes);
+        $mapped = $converter->map($values);
+        $expect = [42, 42, 42, 42, 42];
 
-        $indexes = $mapper->getIndexes();
-        $this->assertEquals([0, 2, 4, 5, 7, 9, 11, 12], $indexes, "Build Map of Harmonics of one Octave");
-
-    }
-
-    public function testBuildHarmonicMapThreeOctaves()
-    {
-        $mapper = new Mapper();
-        $mapper->setOctaves(3);
-        $mapper->buildMap();
-
-        $expect = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24, 26, 28, 29, 31, 33, 35, 36];
-
-        $indexes = $mapper->getIndexes();
-        $this->assertEquals($expect, $indexes, "Build Map of Harmonics of one Octave");
+        $this->assertEquals($expect, $mapped);
     }
 
     public function testMap()
     {
 
-        $tuples = [4, 8, 16];
+        $values = [4, 8, 15];
 
-        $mapper = new Mapper();
+        $mapper = new Mapper([3, 6, 9]);
 
-        $mapped = $mapper->map($tuples);
+        $mapped = $mapper->map($values);
 
-        $expected = [
-            [0, 0.25],
-            [3, 0.25],
-            [8, 0.25],
-        ];
+        $expected = [3, 6, 9];
 
         $this->assertEquals($expected, $mapped, "Mapping maps to harmonics");
     }
@@ -94,28 +67,77 @@ class MapperTest extends TestCase
     public function testMap2()
     {
 
-        $tuples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $harmonics = [0, 2, 4, 5, 7, 9, 11, 12];
 
-        $mapper = new Mapper();
+        $mapper = new Mapper($harmonics);
 
-        $mapped = $mapper->map($tuples);
+        $mapped = $mapper->map($values);
 
         $expected = [
-            [0, 0.25],
-            [1, 0.25],
-            [1, 0.25],
-            [2, 0.25],
-            [3, 0.25],
-            [3, 0.25],
-            [4, 0.25],
-            [5, 0.25],
-            [5, 0.25],
-            [6, 0.25],
-            [7, 0.25],
-            [7, 0.25],
-            [8, 0.25],
+            0,
+            0,
+            2,
+            2,
+            4,
+            5,
+            5,
+            7,
+            7,
+            9,
+            11,
+            11,
+            12,
         ];
 
+        $this->assertEquals($expected, $mapped, "Mapping chromatics to harmonics");
+    }
+
+    public function testBig()
+    {
+        $values = array(
+            113881560167520528,
+            240742034022850490,
+            1066747282849892953,
+            643058174815935281,
+            746685572112197002,
+            878873602786038165,
+            481357328889769461,
+            778777184553630502,
+            635897285630891612,
+            854253631401943795,
+            481011469280177185,
+            258248419042673932,
+        );
+
+        $indexes = array(
+            0 => 0,
+            1 => 2,
+            2 => 4,
+            3 => 5,
+            4 => 7,
+            5 => 9,
+            6 => 11,
+            7 => 12,
+        );
+
+        $mapper = new Mapper($indexes);
+        $mapped = $mapper->map($values);
+
+        $expected = [
+            0,
+            2,
+            12,
+            7,
+            9,
+            11,
+            5,
+            9,
+            7,
+            11,
+            5,
+            2,
+        ];
         $this->assertEquals($expected, $mapped, "Mapping chromatics to harmonics");
     }
 }

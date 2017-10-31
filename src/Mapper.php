@@ -10,112 +10,55 @@ namespace Codesound;
 
 class  Mapper
 {
-    const HARMONIC = "harmonic";
-    const CHROMATIC = "chromatic";
+    /** @var array */
     private $indexes;
-    private $octaves;
 
-    public function __construct()
+    public function __construct($indexes = [])
     {
-        $this->mapping = self::HARMONIC;
-        $this->octaves = 1;
-
-
-        $this->harmonics = [0, 2, 4, 5, 7, 9, 11];
-        $this->lengths = [1 / 8, 1 / 4, 1 / 2, 1];
+        $this->indexes = $indexes;
     }
 
-    /**
-     * Build the maps of available indexes and available lengths, considering limits and octaves
-     */
-    public function buildMap()
+    public function map($values)
     {
-        //consider octaves
-        $this->indexes = [];
-        for ($i = 0; $i < $this->octaves; $i++) {
-            $indexes = array_map(
-                function ($idx) use ($i) {
-                    return $idx + (12 * $i);
-                },
-                $this->harmonics
-            );
-
-            $this->indexes = array_merge($this->indexes, $indexes);
+        if (count($this->indexes) === 0) {
+            throw new \Exception("Missing indexes to map to");
         }
 
-        //put next octaves 0 at the end
-        $this->indexes[] = 12 * $this->octaves;
-    }
+        list($min, $max) = $this->findLimits($values);
 
-    public function getIndexes()
-    {
-        return $this->indexes;
-    }
-
-    public function map($tuples)
-    {
-        list($minIndex, $maxIndex, $minLength, $maxLength) = $this->findLimits($tuples);
-
-        $this->buildMap();
-
-        $indexDiff = $maxIndex - $minIndex;
-        $indexStep = $indexDiff / count($this->indexes);
+        $c = count($this->indexes);
+        $diff = $max - $min + 1;
+        $step = $diff / $c;
+        $maxIndex = $c - 1;
 
         $mapped = [];
-        foreach ($tuples as $tuple) {
-            list ($index, $length) = $this->normalize($tuple);
-
-            $idx = round(($index - $minIndex) / $indexStep);
-            $length = .25;
-
-            $mapped[] = [$idx, $length];
+        foreach ($values as $value) {
+            $idx = floor(($value - $min) / $step);
+            // Due to float inaccuracy, with big numbers, index can be too high; so we need to limit it
+            if ($idx > $maxIndex) {
+                $idx = $maxIndex;
+            }
+            $mapped[] = $this->indexes[$idx];
         }
 
         return $mapped;
     }
 
-    public function normalize($tuple)
+    public function findLimits($values)
     {
-        if (is_numeric($tuple)) {
-            return [$tuple, 0];
-        }
+        $min = 9e99;
+        $max = 0;
+        foreach ($values as $value) {
 
-        return $tuple;
-    }
-
-    public function findLimits($tuples)
-    {
-        $minIndex = 9e99;
-        $maxIndex = 0;
-        $minLength = 9e99;
-        $maxLength = 0;
-        foreach ($tuples as $tuple) {
-            list ($index, $length) = $this->normalize($tuple);
-
-            if ($minIndex > $index) {
-                $minIndex = $index;
+            if ($min > $value) {
+                $min = $value;
             }
 
-            if ($maxIndex < $index) {
-                $maxIndex = $index;
-            }
-
-            if ($minLength > $length) {
-                $minLength = $length;
-            }
-
-            if ($maxLength < $length) {
-                $maxLength = $length;
+            if ($max < $value) {
+                $max = $value;
             }
         }
 
-        return [$minIndex, $maxIndex, $minLength, $maxLength];
+        return [$min, $max];
     }
-
-    public function setOctaves($int)
-    {
-        $this->octaves = $int;
-    }
-
-
 }

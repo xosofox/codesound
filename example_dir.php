@@ -6,7 +6,7 @@
  * Time: 00:32
  */
 
-use Codesound\Mapper;
+use Codesound\Converter;
 use Codesound\Player;
 use Codesound\Sequence;
 use Codesound\SoundDumper;
@@ -23,7 +23,7 @@ $values = [];
 
 if ($handle = opendir(__DIR__)) {
 
-    /* Das ist der korrekte Weg, ein Verzeichnis zu durchlaufen. */
+    //For every file in directory, create an hashed "bignum" to be used for defining the pitch/index
     while (false !== ($entry = readdir($handle))) {
         if (is_dir($entry)) {
             $values[] = null;
@@ -36,8 +36,9 @@ if ($handle = opendir(__DIR__)) {
     closedir($handle);
 }
 
-$mapper = new Mapper();
-$tuples = $mapper->map($values);
+$Converter = new Converter();
+$tuples = $Converter->map($values);
+
 
 $sequence = Sequence::fromTuples($tuples);
 
