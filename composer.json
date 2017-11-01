@@ -1,5 +1,15 @@
 {
     "name": "xosofox/codesound",
+    "description": "Turn stuff into music",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Dietrich",
+            "email": "xosofox@gmail.com"
+        }
+    ],
+    "require": {},
     "require-dev": {
         "phpunit/phpunit": "^6.4"
     },
