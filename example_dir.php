@@ -37,7 +37,7 @@ if ($handle = opendir(__DIR__)) {
 }
 
 $Converter = new Converter();
-$tuples = $Converter->map($values);
+$tuples = $Converter->convert($values);
 
 
 $sequence = Sequence::fromTuples($tuples);

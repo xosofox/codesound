@@ -10,7 +10,7 @@ namespace Codesound;
 
 use PHPUnit\Framework\TestCase;
 
-class MapperTest extends TestCase
+class ValueMapperTest extends TestCase
 {
     public function testFindLimits()
     {
@@ -23,7 +23,7 @@ class MapperTest extends TestCase
             3,
         ];
 
-        $mapper = new Mapper();
+        $mapper = new ValueMapper();
         list($min, $max) = $mapper->findLimits($values);
 
         $this->assertEquals(3, $min);
@@ -35,7 +35,7 @@ class MapperTest extends TestCase
         $this->expectException(\Exception::class);
 
         $indexes = [];
-        $converter = new Mapper($indexes);
+        $converter = new ValueMapper($indexes);
         $mapped = $converter->map([1, 2, 3]);
     }
 
@@ -43,7 +43,7 @@ class MapperTest extends TestCase
     {
         $indexes = [42];
         $values = [3, 4, 5, 6, 7];
-        $converter = new Mapper($indexes);
+        $converter = new ValueMapper($indexes);
         $mapped = $converter->map($values);
         $expect = [42, 42, 42, 42, 42];
 
@@ -55,7 +55,7 @@ class MapperTest extends TestCase
 
         $values = [4, 8, 15];
 
-        $mapper = new Mapper([3, 6, 9]);
+        $mapper = new ValueMapper([3, 6, 9]);
 
         $mapped = $mapper->map($values);
 
@@ -70,7 +70,7 @@ class MapperTest extends TestCase
         $values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         $harmonics = [0, 2, 4, 5, 7, 9, 11, 12];
 
-        $mapper = new Mapper($harmonics);
+        $mapper = new ValueMapper($harmonics);
 
         $mapped = $mapper->map($values);
 
@@ -121,7 +121,7 @@ class MapperTest extends TestCase
             7 => 12,
         );
 
-        $mapper = new Mapper($indexes);
+        $mapper = new ValueMapper($indexes);
         $mapped = $mapper->map($values);
 
         $expected = [

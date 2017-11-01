@@ -52,14 +52,14 @@ class  Converter
         return $this->indexes;
     }
 
-    public function map($tuples)
+    public function convert($tuples)
     {
         list($indexes, $lengths) = $this->split($tuples);
 
         $this->buildMap();
 
-        $mappedIndexes = (new Mapper($this->indexes))->map($indexes);
-        $mappedLengths = (new Mapper($this->lengths))->map($lengths);
+        $mappedIndexes = (new ValueMapper($this->indexes))->map($indexes);
+        $mappedLengths = (new ValueMapper($this->lengths))->map($lengths);
 
 
         $mapped = [];
